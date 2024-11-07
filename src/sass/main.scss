@@ -5,85 +5,19 @@
 @import 'searchResults';
 @import 'recipe';
 @import 'upload';
-
-/* Mobile styles */
-@media screen and (max-width: 768px) {
-  .container {
-    max-width: 100%;
-    padding: 0 1rem;
-  }
-
-  .header {
-    flex-direction: column;
-    padding: 1rem;
-  }
-
-  .search {
-    width: 100%;
-    margin: 1rem 0;
-  }
-
-  .nav__list {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .search-results {
-    width: 100%;
-  }
-
-  .recipe {
-    width: 100%;
-  }
-
-  .upload {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-
-  .add-recipe-window {
-    width: 90%;
-    max-height: 90vh;
-    overflow-y: auto;
-  }
-}
-
-/* Tablet styles */
-@media screen and (min-width: 769px) and (max-width: 1024px) {
-  .container {
-    max-width: 95%;
-  }
-
-  .recipe {
-    width: 60%;
-  }
-
-  .search-results {
-    width: 40%;
-  }
-}
-
-/* Desktop styles */
-@media screen and (min-width: 1025px) {
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-}
-
+@import 'responsive';
 .container {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
 
-.search-results {
+.header {
   display: flex;
-  flex-direction: column;
-  flex: 1;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
-.results {
+.search-results {
   flex: 1;
-  overflow-y: auto;
 }
