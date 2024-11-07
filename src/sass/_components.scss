@@ -97,6 +97,7 @@
   cursor: pointer;
   height: 4.5rem;
   width: 4.5rem;
+  // margin-left: auto;
   transition: all 0.2s;
 
   display: flex;
@@ -158,6 +159,7 @@
   text-transform: uppercase;
   margin-bottom: 2.5rem;
   text-align: center;
+  // transform: skewY(-3deg);
 }
 
 .link:link,
@@ -181,6 +183,7 @@
   0% {
     transform: rotate(0);
   }
+
   100% {
     transform: rotate(360deg);
   }
@@ -206,121 +209,5 @@
     font-size: 1.8rem;
     line-height: 1.5;
     font-weight: 600;
-  }
-}
-
-// **Responsive Media Queries**
-
-@media only screen and (max-width: $bp-medium) {
-  .btn {
-    padding: 1.2rem 3rem;
-    font-size: 1.4rem;
-
-    svg {
-      height: 2rem;
-      width: 2rem;
-    }
-  }
-
-  .btn--small {
-    padding: 1.1rem 2rem;
-    font-size: 1.3rem;
-
-    svg {
-      height: 1.5rem;
-      width: 1.5rem;
-    }
-  }
-
-  .btn--inline {
-    font-size: 1.2rem;
-    padding: 0.7rem 1.5rem;
-
-    svg {
-      height: 1.5rem;
-      width: 1.5rem;
-    }
-  }
-
-  .btn--round {
-    height: 4rem;
-    width: 4rem;
-
-    svg {
-      height: 2.2rem;
-      width: 2.2rem;
-    }
-  }
-
-  .btn--tiny {
-    height: 1.8rem;
-    width: 1.8rem;
-
-    svg {
-      height: 100%;
-      width: 100%;
-    }
-  }
-
-  .heading--2 {
-    font-size: 1.8rem;
-    margin-bottom: 2rem;
-  }
-}
-
-@media only screen and (max-width: $bp-small) {
-  .btn {
-    padding: 1rem 2.5rem;
-    font-size: 1.3rem;
-
-    svg {
-      height: 1.75rem;
-      width: 1.75rem;
-    }
-  }
-
-  .btn--small {
-    padding: 1rem 1.8rem;
-    font-size: 1.2rem;
-
-    svg {
-      height: 1.4rem;
-      width: 1.4rem;
-    }
-  }
-
-  .btn--inline {
-    font-size: 1.1rem;
-    padding: 0.6rem 1.3rem;
-
-    svg {
-      height: 1.4rem;
-      width: 1.4rem;
-    }
-  }
-
-  .btn--round {
-    height: 3.8rem;
-    width: 3.8rem;
-
-    svg {
-      height: 2rem;
-      width: 2rem;
-    }
-  }
-
-  .btn--tiny {
-    height: 1.5rem;
-    width: 1.5rem;
-
-    svg {
-      height: 100%;
-      width: 100%;
-    }
-  }
-
-  .heading--2 {
-    font-size: 1.6rem;
-    margin-bottom: 1.5rem;
   }
 }
