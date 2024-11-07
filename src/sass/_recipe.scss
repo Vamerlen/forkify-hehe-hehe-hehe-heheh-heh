@@ -6,7 +6,6 @@
   &__fig {
     height: 32rem;
     position: relative;
-    // transform: scale(1.04) translateY(-1px);
     transform-origin: top;
 
     &::before {
@@ -59,6 +58,11 @@
 
     @media only screen and (max-width: $bp-medium) {
       width: 70%;
+      font-size: 2.5rem;
+    }
+
+    @media only screen and (max-width: $bp-small) {
+      font-size: 2rem;
     }
   }
 
@@ -67,7 +71,11 @@
   &__details {
     display: flex;
     align-items: center;
-    padding: 7.5rem 8rem 3.5rem 8rem;
+    padding: 7.5rem 5rem 3.5rem;
+
+    @media only screen and (max-width: $bp-medium) {
+      padding: 5rem 3rem;
+    }
   }
 
   &__info {
@@ -79,6 +87,13 @@
     &:not(:last-child) {
       margin-right: 4.5rem;
     }
+
+    @media only screen and (max-width: $bp-medium) {
+      font-size: 1.45rem;
+      &:not(:last-child) {
+        margin-right: 3rem;
+      }
+    }
   }
 
   &__info-icon {
@@ -86,49 +101,37 @@
     width: 2.35rem;
     fill: $color-primary;
     margin-right: 1.15rem;
-  }
 
-  &__info-data {
-    margin-right: 0.5rem;
-    font-weight: 700;
-  }
-
-  &__info-buttons {
-    display: flex;
-    margin-left: 1.6rem;
-    transform: translateY(-1px);
+    @media only screen and (max-width: $bp-medium) {
+      height: 2rem;
+      width: 2rem;
+      margin-right: 0.8rem;
+    }
   }
 
   &__user-generated {
-    background-color: darken($color-grey-light-2, 2%);
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 4rem;
-    width: 4rem;
-    border-radius: 10rem;
-
     margin-left: auto;
     margin-right: 1.75rem;
 
-    svg {
-      height: 2.25rem;
-      width: 2.25rem;
-      fill: $color-primary;
+    @media only screen and (max-width: $bp-medium) {
+      margin-right: 1rem;
     }
   }
 
   ///////////
   // INGREDIENTS
   &__ingredients {
-    padding: 5rem 8rem;
+    padding: 5rem;
     font-size: 1.6rem;
     line-height: 1.4;
     background-color: $color-grey-light-2;
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    @media only screen and (max-width: $bp-medium) {
+      padding: 3rem;
+    }
   }
 
   &__ingredient-list {
@@ -136,34 +139,23 @@
     grid-template-columns: 1fr 1fr;
     gap: 2.5rem 3rem;
     list-style: none;
-  }
 
-  &__ingredient {
-    display: flex;
-  }
-
-  &__icon {
-    height: 2rem;
-    width: 2rem;
-    fill: $color-primary;
-    margin-right: 1.1rem;
-    flex: 0 0 auto;
-    margin-top: 0.1rem;
-  }
-
-  &__quantity {
-    margin-right: 0.5rem;
-    flex: 0 0 auto;
+    @media only screen and (max-width: $bp-medium) {
+      grid-template-columns: 1fr;
+    }
   }
 
   ///////////
   // DIRECTIONS
   &__directions {
-    padding: 5rem 10rem;
-    padding-bottom: 5rem;
+    padding: 5rem 8rem;
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    @media only screen and (max-width: $bp-medium) {
+      padding: 3rem;
+    }
   }
 
   &__directions-text {
@@ -171,9 +163,10 @@
     text-align: center;
     margin-bottom: 3.5rem;
     color: $color-grey-dark-2;
-  }
 
-  &__publisher {
-    font-weight: 700;
+    @media only screen and (max-width: $bp-medium) {
+      font-size: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
   }
 }
