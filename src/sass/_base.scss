@@ -69,3 +69,11 @@ body {
     border-radius: 0;
   }
 }
+
+.container {
+  grid-template-rows: 10rem minmax(auto, auto);
+  grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
+  grid-template-areas:
+    "head head"
+    "list recipe";
+}
