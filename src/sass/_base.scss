@@ -31,7 +31,7 @@ html {
   box-sizing: border-box;
   font-size: 62.5%; // 10px base font size
 
-  @media only screen and (max-width: $bp-medium) {
+  @media only screen and (max-width: 786px) {
     font-size: 50%; // Reduces base font size for smaller screens
   }
 }
@@ -62,14 +62,12 @@ body {
   grid-template-areas:
     'head head'
     'list recipe';
-
-  @media only screen and (max-width: $bp-large) {
     max-width: 100%;
     margin: 0;
     border-radius: 0;
   }
 
-  @media only screen and (max-width: $bp-medium) {
+  @media only screen and (max-width: 786px) {
     grid-template-rows: auto;
     grid-template-columns: 1fr;
     grid-template-areas:
@@ -78,7 +76,7 @@ body {
       'recipe';
   }
 
-  @media only screen and (max-width: $bp-small) {
+  @media only screen and (max-width: 360px) {
     padding: 2rem; // Adds padding to smaller screens
   }
 }
@@ -97,7 +95,7 @@ body {
     display: block;
   }
 
-  @media only screen and (max-width: $bp-medium) {
+  @media only screen and (max-width: 786px) {
     padding: 1rem 2rem;
     &__logo {
       height: 3.5rem;
@@ -135,11 +133,11 @@ body {
       color: $color-grey-light-3;
     }
 
-    @media only screen and (max-width: $bp-medium) {
+    @media only screen and (max-width: 786px) {
       width: 20rem;
     }
 
-    @media only screen and (max-width: $bp-small) {
+    @media only screen and (max-width: 360px) {
       width: 15rem;
     }
   }
@@ -149,7 +147,7 @@ body {
     font-family: inherit;
   }
 
-  @media only screen and (max-width: $bp-medium) {
+  @media only screen and (max-width: 786px) {
     padding-left: 1rem;
   }
 }
@@ -201,7 +199,7 @@ body {
     }
   }
 
-  @media only screen and (max-width: $bp-medium) {
+  @media only screen and (max-width: 786px) {
     margin-right: 1rem;
 
     &__btn {
@@ -210,7 +208,7 @@ body {
     }
   }
 
-  @media only screen and (max-width: $bp-small) {
+  @media only screen and (max-width: 360px) {
     display: none; // Hide navigation for small screens; use a mobile menu if necessary
   }
 }
@@ -251,7 +249,7 @@ body {
     opacity: 1;
   }
 
-  @media only screen and (max-width: $bp-medium) {
+  @media only screen and (max-width: 786px) {
     width: 100vw;
     right: 0;
     padding: 1rem;
