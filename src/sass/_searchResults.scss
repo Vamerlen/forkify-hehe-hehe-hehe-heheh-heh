@@ -43,7 +43,7 @@
 
 // **Responsive Media Queries**
 
-@media only screen and (max-width: $bp-medium) {
+@media only screen and (max-width: 786px) {
   .search-results {
     padding: 2rem 1.5rem; // Reduced padding for mobile
   }
@@ -63,7 +63,7 @@
   }
 }
 
-@media only screen and (max-width: $bp-small) {
+@media only screen and (max-width: 360) {
   .search-results {
     padding: 1.5rem 1rem; // Further reduce padding
   }
