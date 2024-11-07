@@ -40,3 +40,45 @@
     color: $color-grey-dark-2;
   }
 }
+
+// **Responsive Media Queries**
+
+@media only screen and (max-width: $bp-medium) {
+  .search-results {
+    padding: 2rem 1.5rem; // Reduced padding for mobile
+  }
+
+  .pagination {
+    padding: 0 2rem; // Reduce padding for smaller screens
+
+    &__btn {
+      font-size: 1.4rem; // Smaller font for pagination buttons
+    }
+  }
+
+  .copyright {
+    font-size: 1.1rem; // Reduce font size on smaller screens
+    padding: 0 2rem; // Adjust padding for smaller screen sizes
+    margin-top: 3rem; // Reduce top margin
+  }
+}
+
+@media only screen and (max-width: $bp-small) {
+  .search-results {
+    padding: 1.5rem 1rem; // Further reduce padding
+  }
+
+  .pagination {
+    padding: 0 1.5rem; // More compact padding
+
+    &__btn {
+      font-size: 1.2rem; // Even smaller font size for pagination buttons
+    }
+  }
+
+  .copyright {
+    font-size: 1rem; // Smaller font size on very small screens
+    padding: 0 1.5rem; // Less padding for tight spaces
+    margin-top: 2rem; // Reduce margin-top further
+  }
+}
