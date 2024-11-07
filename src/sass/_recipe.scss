@@ -6,9 +6,23 @@
   &__fig {
     height: 32rem;
     position: relative;
+    // transform: scale(1.04) translateY(-1px);
     transform-origin: top;
-    @media only screen and (max-width: 786px) {
-      height: 24rem; // Reduce height for medium screens
+
+    &::before {
+      content: '';
+      display: block;
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background-image: linear-gradient(
+        to right bottom,
+        $color-grad-1,
+        $color-grad-2
+      );
+      opacity: 0.6;
     }
   }
 
@@ -31,21 +45,20 @@
     width: 50%;
     line-height: 1.95;
     text-align: center;
+
     span {
       -webkit-box-decoration-break: clone;
       box-decoration-break: clone;
       padding: 1.3rem 2rem;
-      background-image: linear-gradient(to right bottom, $color-grad-1, $color-grad-2);
+      background-image: linear-gradient(
+        to right bottom,
+        $color-grad-1,
+        $color-grad-2
+      );
     }
 
-    @media only screen and (max-width: 786px) {
-      width: 70%; // Make title width larger on medium screens
-      font-size: 2.5rem; // Decrease font size for mobile
-    }
-
-    @media only screen and (max-width: 360px) {
-      font-size: 2rem; // Further reduce font size for small screens
-      width: 80%;
+    @media only screen and (max-width: $bp-medium) {
+      width: 70%;
     }
   }
 
@@ -55,11 +68,6 @@
     display: flex;
     align-items: center;
     padding: 7.5rem 8rem 3.5rem 8rem;
-    @media only screen and (max-width: 786px) {
-      padding: 5rem 4rem 2rem 4rem; // Adjust padding for mobile
-      flex-direction: column;
-      align-items: flex-start;
-    }
   }
 
   &__info {
@@ -67,13 +75,9 @@
     text-transform: uppercase;
     display: flex;
     align-items: center;
+
     &:not(:last-child) {
       margin-right: 4.5rem;
-    }
-
-    @media only screen and (max-width: 786px) {
-      font-size: 1.4rem; // Smaller font for mobile
-      margin-right: 2.5rem; // Adjust spacing
     }
   }
 
@@ -97,12 +101,14 @@
 
   &__user-generated {
     background-color: darken($color-grey-light-2, 2%);
+
     display: flex;
     align-items: center;
     justify-content: center;
     height: 4rem;
     width: 4rem;
     border-radius: 10rem;
+
     margin-left: auto;
     margin-right: 1.75rem;
 
@@ -111,10 +117,35 @@
       width: 2.25rem;
       fill: $color-primary;
     }
+  }
 
-    @media only screen and (max-width: 360px) {
-      height: 3.5rem;
-      width: 3.5rem; // Adjust size for small screens
+  .btn--delete {
+    background-image: $gradient;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    height: 4.5rem;
+    width: 4.5rem;
+    margin-right: 1rem;
+    // margin-left: auto;
+    transition: all 0.2s;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      transform: scale(1.07);
+    }
+
+    // &:focus {
+    //   outline: none;
+    // }
+
+    svg {
+      height: 2.5rem;
+      width: 2.5rem;
+      fill: #fff;
     }
   }
 
@@ -128,11 +159,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-
-    @media only screen and (max-width: 786px) {
-      padding: 1rem 1rem;
-      font-size: 1.4rem; // Smaller font size on mobile
-    }
   }
 
   &__ingredient-list {
@@ -140,13 +166,7 @@
     grid-template-columns: 1fr 1fr;
     gap: 2.5rem 3rem;
     list-style: none;
-
-    @media only screen and (max-width: $bp-small) {
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
-      gap: 20px;
-      white-space: nowrap;
-      overflow-x: auto;
-    }
+  }
 
   &__ingredient {
     display: flex;
@@ -166,16 +186,14 @@
     flex: 0 0 auto;
   }
 
+  ///////////
+  // DIRECTIONS
   &__directions {
     padding: 5rem 10rem;
     padding-bottom: 5rem;
     display: flex;
     flex-direction: column;
     align-items: center;
-
-    @media only screen and (max-width: 786px) {
-      padding: 3rem 2rem; // Reduce padding for mobile
-    }
   }
 
   &__directions-text {
@@ -183,11 +201,6 @@
     text-align: center;
     margin-bottom: 3.5rem;
     color: $color-grey-dark-2;
-
-    @media only screen and (max-width: 360px) {
-      font-size: 1.4rem; // Smaller font for mobile
-      margin-bottom: 2rem; // Less spacing
-    }
   }
 
   &__publisher {
