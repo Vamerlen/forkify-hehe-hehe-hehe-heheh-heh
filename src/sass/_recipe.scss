@@ -145,7 +145,7 @@
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
       gap: 20px;
       white-space: nowrap;
-      overflow-x: auto; /* Adds horizontal scrolling if needed *
+      overflow-x: auto;
     }
 
   &__ingredient {
