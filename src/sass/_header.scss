@@ -10,14 +10,6 @@
     height: 4.6rem;
     display: block;
   }
-
-  @media only screen and (max-width: 786px) {
-    padding: 1rem;
-    &__logo {
-      margin-left: 2rem;
-      height: 3.5rem;
-    }
-  }
 }
 
 .search {
@@ -49,22 +41,18 @@
       color: $color-grey-light-3;
     }
 
-    @media only screen and (max-width: 786px) {
-      width: 20rem;
-    }
+    @media only screen and (max-width: $bp-medium) {
+      width: auto;
 
-    @media only screen and (max-width: 786px) {
-      width: 15rem;
+      &::placeholder {
+        color: white;
+      }
     }
   }
 
   &__btn {
     font-weight: 600;
     font-family: inherit;
-  }
-
-  @media only screen and (max-width: 786px) {
-    padding-left: 1rem;
   }
 }
 
@@ -114,29 +102,18 @@
       background-color: $color-grey-light-2;
     }
   }
-
-  @media only screen and (max-width: 786px) {
-    margin-right: 1rem;
-
-    &__btn {
-      font-size: 1.2rem;
-      padding: 0 1rem;
-    }
-  }
-
-  @media only screen and (max-width: 360px) {
-    display: none; // Hide navigation for small screens; consider using a hamburger menu
-  }
 }
 
 .bookmarks {
   padding: 1rem 0;
   position: absolute;
+  // right: 0;
   right: -2.5rem;
   z-index: 10;
   width: 40rem;
   background-color: #fff;
   box-shadow: 0 0.8rem 5rem 2rem rgba($color-grey-dark-1, 0.1);
+
   visibility: hidden;
   opacity: 0;
   transition: all 0.5s 0.2s;
@@ -148,6 +125,7 @@
   &__field {
     cursor: pointer;
     padding: 0 4rem;
+
     display: flex;
     align-items: center;
     height: 100%;
@@ -163,11 +141,4 @@
     visibility: visible;
     opacity: 1;
   }
-
-  @media only screen and (max-width: 786px) {
-    width: 100vw;
-    right: 0;
-    padding: 1rem;
-  }
 }
-
