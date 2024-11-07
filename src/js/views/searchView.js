@@ -1,20 +1,27 @@
-const searchView = function () {
-  this._parentEle = document.querySelector('.search');
-};
+import { View } from './View.js';
 
-searchView.prototype.getQuery = function () {
-  return this._parentEle.querySelector('.search__field').value;
-};
+class SearchView extends View {
+  _parentEl = document.querySelector('.search');
 
-searchView.prototype.addHandlerSearch = function (handler) {
-  window.addEventListener('DOMContentLoaded', () =>
-    this._parentEle.querySelector('.search__field').focus()
-  );
-  this._parentEle.addEventListener('submit', event => {
-    event.preventDefault();
-    handler();
-    this._parentEle.querySelector('.search__field').value = '';
-  });
-};
+  // Listening for the search query
+  addHandlerSearch(handler) {
+    this._parentEl.addEventListener('submit', function (e) {
+      e.preventDefault();
+      handler();
+    });
 
-export default new searchView();
+    this._parentEl.addEventListener('click', function (e) {
+      e.preventDefault();
+      handler();
+    });
+  }
+
+  // Getting the search query
+  getQuery() {
+    const query = this._parentEl.querySelector('.search__field').value;
+    this._parentEl.querySelector('.search__field').value = '';
+    return query;
+  }
+}
+
+export default new SearchView();
