@@ -1,95 +1,76 @@
-import { view } from './view';
+import { View } from './View.js';
 import icons from 'url:../../img/icons.svg';
 
-const paginationView = function () {
-  view.call(this);
-  this._parentEle = document.querySelector('.pagination');
-};
-paginationView.prototype = Object.create(view.prototype);
+class PaginationView extends View {
+  _parentEl = document.querySelector('.pagination');
 
-paginationView.prototype.addHandlerPagination = function (handler) {
-  this._parentEle.addEventListener('click', event => {
-    const btn = event.target.closest('.btn--inline');
-    if (!btn) return;
-    const gotoPage = +btn.dataset.goto;
-    handler(gotoPage);
-  });
-};
+  addHandlerPagination(handler) {
+    this._parentEl.addEventListener('click', function (e) {
+      const btn = e.target.closest('.btn--inline');
+      if (!btn) return;
 
-paginationView.prototype.generateMarkup = function () {
-  const numePages = Math.ceil(this.data.results.length / this.data.perPage);
-  console.log(numePages);
-  const currentPage = this.data.page;
+      const goToPage = +btn.dataset.goto;
+      handler(goToPage);
+    });
+  }
 
-  // page 1 - other pages
-  if (currentPage === 1 && numePages > 1) {
+  _generateMarkup() {
+    // Only 1 page or there are no pages
+    if (this._data.numPages === 1 || !this._data.numPages) return '';
+
+    // More than 1 page, it's the page 1
+    if (this._data.currentPage === 1)
+      return this._markupNext() + this._pageCount();
+
+    // More than 1 page, it's the last page
+    if (this._data.currentPage === this._data.numPages)
+      return this._markupPrev() + this._pageCount();
+
+    // On middle page
+    return this._markup() + this._pageCount();
+  }
+
+  // Markup to display previous button
+  _markupPrev() {
     return `
-    <button data-goto="${
-      currentPage + 1
-    }" class="btn--inline pagination__btn--next">
-        <span>Page ${currentPage + 1}</span>
-        <svg class="search__icon">
-          <use href="${icons}#icon-arrow-right"></use>
-        </svg>
-    </button>
+          <button data-goto="${
+            this._data.currentPage - 1
+          }" class="btn--inline pagination__btn--prev">
+            <svg class="search__icon">
+              <use href="${icons}#icon-arrow-left"></use>
+            </svg>
+            <span>Page ${this._data.currentPage - 1}</span>
+          </button>
     `;
   }
 
-  // last page
-  if (currentPage === numePages && numePages > 1) {
+  // Markup to display next button
+  _markupNext() {
     return `
-    <button data-goto="${
-      currentPage - 1
-    }" class="btn--inline pagination__btn--prev">
-        <svg class="search__icon">
-          <use href="${icons}#icon-arrow-left"></use>
-        </svg>
-        <span>Page ${currentPage - 1}</span>
-    </button>
+          <button data-goto="${
+            this._data.currentPage + 1
+          }" class="btn--inline   pagination__btn--next">
+            <span>Page ${this._data.currentPage + 1}</span>
+            <svg class="search__icon">
+              <use href="${icons}#icon-arrow-right"></use>
+            </svg>
+          </button>
     `;
   }
 
-  // other page
-  if (currentPage < numePages) {
-    return `
-    <button data-goto="${
-      currentPage + 1
-    }" class="btn--inline pagination__btn--next">
-        <span>Page ${currentPage + 1}</span>
-        <svg class="search__icon">
-          <use href="${icons}#icon-arrow-right"></use>
-        </svg>
-    </button>
-    
-    <button data-goto="${
-      currentPage - 1
-    }" class="btn--inline pagination__btn--prev">
-        <svg class="search__icon">
-          <use href="${icons}#icon-arrow-left"></use>
-        </svg>
-        <span>Page ${currentPage - 1}</span>
-    </button>
-    `;
+  // Markup to display both previous and next buttons
+  _markup() {
+    return this._markupPrev() + this._markupNext();
   }
 
-  // page 1 - NO other pages
-  return '';
-};
-// const markup = `
-//   <button class="btn--inline pagination__btn--prev">
-//       <svg class="search__icon">
-//           <use href="src/img/icons.svg#icon-arrow-left"></use>
-//       </svg>
-//       <span>Page 1</span>
-//   </button>
+  // Markup to display page count
+  _pageCount() {
+    return `
+    <div class="page__count">
+      <text>Page ${this._data.currentPage} of ${this._data.numPages}</text>
+    </div>
+    `;
+  }
+}
 
-//   <button class="btn--inline pagination__btn--next">
-//       <span>Page 3</span>
-//       <svg class="search__icon">
-//           <use href="src/img/icons.svg#icon-arrow-right"></use>
-//       </svg>
-//   </button>
-//      `;
-// return markup;
-
-export default new paginationView();
+export default new PaginationView();
