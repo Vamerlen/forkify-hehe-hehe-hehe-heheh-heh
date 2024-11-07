@@ -1,42 +1,34 @@
+import { View } from './View.js';
 import icons from 'url:../../img/icons.svg';
-import { view } from './view';
 
-const previewView = function () {
-  view.call(this);
-  this._parentEle = '';
-};
-previewView.prototype = Object.create(view.prototype); // inheritance
+class PreviewView extends View {
+  _parentEl = '';
 
-previewView.prototype.generateMarkup = function () {
-  const currentHashID = window.location.hash.slice(1);
-
-  const markup = `
-    <li class="preview ${
-      currentHashID === this.data.id ? 'preview__link--active' : ''
-    }">
-        <a class="preview__link" href="#${this.data.id}">
-            <figure class="preview__fig">
-                <img src="${this.data.imageUrl}" alt="${this.data.title}" />
-            </figure>
-            <div class="preview__data">
-                <h4 class="preview__title">${this.data.title}</h4>
-                <p class="preview__publisher">${this.data.publisher}</p>
-              <div class="preview__user-generated ${
-                this.data.key ? '' : 'hidden'
-              }">
-                <svg>
-                  <use href="${icons}#icon-user"></use>
-                </svg>
+  _generateMarkup(result) {
+    const id = window.location.hash.slice(1);
+    return `
+          <li class="preview">
+            <a class="preview__link ${
+              result.id === id ? 'preview__link--active' : ''
+            }" href="#${result.id}">
+              <figure class="preview__fig">
+                <img src="${result.image}" alt="${result.title}" />
+              </figure>
+              <div class="preview__data">
+                <h4 class="preview__title">${result.title}</h4>
+                <p class="preview__publisher">${result.publisher}</p>
+                <div class="preview__user-generated ${
+                  result.key ? '' : 'hidden'
+                }">
+                  <svg>
+                    <use href="${icons}#icon-user"></use>
+                  </svg>
+                </div>
               </div>
-            </div>
-          </a>
-      </li>
-`;
-  return markup;
-};
-// <div class="preview__user-generated">
-// <svg>
-//     <use href="${icons}#icon-user"></use>
-// </svg>
-// </div>
-export default new previewView();
+            </a>
+          </li>
+    `;
+  }
+}
+
+export default new PreviewView();
