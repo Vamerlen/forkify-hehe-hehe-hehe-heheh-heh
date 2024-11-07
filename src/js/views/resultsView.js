@@ -1,44 +1,20 @@
-import icons from 'url:../../img/icons.svg';
-import { view } from './view';
+import { View } from './View.js';
+import previewView from './previewView.js';
 
-const resultView = function () {
-  view.call(this);
-  this._parentEle = document.querySelector('.results');
-};
-resultView.prototype = Object.create(view.prototype); // inheritance
+class ResultsView extends View {
+  _parentEl = document.querySelector('.results');
+  _errorMessage = 'No recipe found for your query! please try another one.';
+  _successMessage = '';
 
-resultView.prototype.generateMarkup = function () {
-  const currentHashID = window.location.hash.slice(1);
+  // Generating markup for search results via the preview view
+  _generateMarkup() {
+    return this._data
+      .map(result => previewView._generateMarkup(result))
+      .join('');
+  }
+  // _generateMarkup() {
+  //   return this._data.map(result => previewView.render(result, false)).join('');
+  // }
+}
 
-  const markup = this.data
-    .map(ele => {
-      return `
-    <li class="preview ${
-      currentHashID === ele.id ? 'preview__link--active' : ''
-    }">
-        <a class="preview__link" href="#${ele.id}">
-            <figure class="preview__fig">
-                <img src="${ele.imageUrl}" alt="${ele.title}" />
-            </figure>
-            <div class="preview__data">
-                <h4 class="preview__title">${ele.title}</h4>
-                <p class="preview__publisher">${ele.publisher}</p>
-              <div class="preview__user-generated ${ele.key ? '' : 'hidden'}">
-                <svg>
-                  <use href="${icons}#icon-user"></use>
-                </svg>
-              </div>
-            </div>
-        </a>
-    </li>
-`;
-    })
-    .join('');
-  return markup;
-};
-// <div class="preview__user-generated">
-// <svg>
-//     <use href="${icons}#icon-user"></use>
-// </svg>
-// </div>
-export default new resultView();
+export default new ResultsView();
