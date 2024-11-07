@@ -11,7 +11,7 @@
     display: block;
   }
 
-  @media only screen and (max-width: $bp-medium) {
+  @media only screen and (max-width: 786px) {
     padding: 1rem;
     &__logo {
       margin-left: 2rem;
@@ -49,4 +49,125 @@
       color: $color-grey-light-3;
     }
 
-    @media only screen and (max-width: $bp-medium
+    @media only screen and (max-width: 786px) {
+      width: 20rem;
+    }
+
+    @media only screen and (max-width: 786px) {
+      width: 15rem;
+    }
+  }
+
+  &__btn {
+    font-weight: 600;
+    font-family: inherit;
+  }
+
+  @media only screen and (max-width: 786px) {
+    padding-left: 1rem;
+  }
+}
+
+.nav {
+  align-self: stretch;
+  margin-right: 2.5rem;
+
+  &__list {
+    list-style: none;
+    display: flex;
+    height: 100%;
+  }
+
+  &__item {
+    position: relative;
+  }
+
+  &__btn {
+    height: 100%;
+    font-family: inherit;
+    color: inherit;
+    font-size: 1.4rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0 1.5rem;
+    transition: all 0.3s;
+
+    display: flex;
+    align-items: center;
+
+    svg {
+      height: 2.4rem;
+      width: 2.4rem;
+      fill: $color-primary;
+      margin-right: 0.7rem;
+      transform: translateY(-1px);
+    }
+
+    &:focus {
+      outline: none;
+    }
+
+    &:hover {
+      background-color: $color-grey-light-2;
+    }
+  }
+
+  @media only screen and (max-width: 786px) {
+    margin-right: 1rem;
+
+    &__btn {
+      font-size: 1.2rem;
+      padding: 0 1rem;
+    }
+  }
+
+  @media only screen and (max-width: 360px) {
+    display: none; // Hide navigation for small screens; consider using a hamburger menu
+  }
+}
+
+.bookmarks {
+  padding: 1rem 0;
+  position: absolute;
+  right: -2.5rem;
+  z-index: 10;
+  width: 40rem;
+  background-color: #fff;
+  box-shadow: 0 0.8rem 5rem 2rem rgba($color-grey-dark-1, 0.1);
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.5s 0.2s;
+
+  &__list {
+    list-style: none;
+  }
+
+  &__field {
+    cursor: pointer;
+    padding: 0 4rem;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    transition: all 0.3s;
+
+    &:hover {
+      background-color: $color-grey-light-2;
+    }
+  }
+
+  &:hover,
+  .nav__btn--bookmarks:hover + & {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  @media only screen and (max-width: 786px) {
+    width: 100vw;
+    right: 0;
+    padding: 1rem;
+  }
+}
+
