@@ -1,0 +1,61 @@
+/* Desktop First Approach */
+
+/* Large Desktop */
+@media only screen and (min-width: 1200px) {
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+}
+
+/* Tablet and Small Desktop */
+@media only screen and (max-width: 1000px) {
+  .search-results {
+    padding: 1rem;
+  }
+
+  .recipe {
+    padding: 2rem;
+  }
+}
+
+/* Mobile */
+@media only screen and (max-width: 600px) {
+  .header {
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  .search {
+    width: 100%;
+    margin: 1rem 0;
+  }
+
+  .nav__list {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .recipe {
+    padding: 1rem;
+  }
+
+  .recipe__details {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .recipe__info {
+    margin-bottom: 1rem;
+  }
+
+  .add-recipe-window {
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .upload {
+    grid-template-columns: 1fr;
+  }
+}
