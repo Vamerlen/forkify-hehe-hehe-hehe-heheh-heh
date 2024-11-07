@@ -1,127 +1,161 @@
 import { async } from 'regenerator-runtime';
-import { API_URL, RES_PER_PAGE, KEY } from './config';
-// import { getJSON, sendJSON } from './helpers';
-import { AJAX } from './helpers';
+import { AJAX, deleteJSON } from './helpers.js';
+import { API_URL, KEY, RES_PER_PAGE } from './configs.js';
 
 export const state = {
   recipe: {},
   search: {
     query: '',
-    results: [],
-    perPage: RES_PER_PAGE,
-    page: 1,
+    results: [], // Array of recipes recived for the query
+    currentPage: 1, // Default search results page
+    resultsPerPage: RES_PER_PAGE,
   },
-  bookMarks: [],
+  bookmarks: [], // Array of bookmarked recipes
 };
 
-const createRecipeObject = function (data) {
-  const { recipe } = data.data;
+// Formats the recieved recipe for rendering
+const recipeObject = function (recipe) {
   return {
     id: recipe.id,
     title: recipe.title,
+    image: recipe.image_url,
     publisher: recipe.publisher,
-    servings: recipe.servings,
-    ingredients: recipe.ingredients,
-    imageUrl: recipe.image_url,
+    sourceURL: recipe.source_url,
     cookingTime: recipe.cooking_time,
-    sourceUrl: recipe.source_url,
+    ingredients: recipe.ingredients,
+    servings: recipe.servings,
     ...(recipe.key && { key: recipe.key }),
   };
 };
 
-export const recipeLoad = async function (recipeID) {
+/**
+ * Gets a recipe of the given ID from the API
+ * @param {String} id The ID of the recipe to be loaded
+ */
+export const loadRecipe = async function (id) {
   try {
-    const data = await AJAX(`${API_URL}${recipeID}?key=${KEY}`);
-    // console.log(data);
-    state.recipe = createRecipeObject(data);
+    // AJAX call for the recipe
+    const data = await AJAX(`${API_URL}${id}?key=${KEY}`);
+    state.recipe = recipeObject(data.data.recipe);
 
-    if (state.bookMarks.some(bookmark => bookmark.id === recipeID)) {
-      state.recipe.bookMarked = true;
-    } else state.recipe.bookMarked = false;
-  } catch (error) {
-    console.error(error);
-    throw error;
+    // Checking if the recipe is bookmarked or not
+    if (state.bookmarks.some(bookmark => bookmark.id === state.recipe.id))
+      state.recipe.bookmarked = true;
+    else state.recipe.bookmarked = false;
+  } catch (err) {
+    throw err;
   }
 };
 
-export const loadSearchResult = async function (query) {
+/**
+ * Gets recipe results for a user query from the API and saves them to the results Array in search object in state
+ * @param {String} query A query made by user to get recipes
+ */
+export const loadSearchResults = async function (query) {
   try {
     state.search.query = query;
     const data = await AJAX(`${API_URL}?search=${query}&key=${KEY}`);
-    console.log(data);
-    state.search.results = data.data.recipes.map(ele => {
+
+    // Save recipes to the results Array
+    state.search.results = data.data.recipes.map(res => {
       return {
-        id: ele.id,
-        title: ele.title,
-        publisher: ele.publisher,
-        imageUrl: ele.image_url,
-        ...(ele.key && { key: ele.key }),
+        id: res.id,
+        title: res.title,
+        image: res.image_url,
+        publisher: res.publisher,
+        ...(res.key && { key: res.key }),
       };
     });
-  } catch (error) {
-    console.error(error);
-    throw error;
+  } catch (err) {
+    throw err;
   }
 };
 
-export const getSearchResultePage = function (page = state.search.page) {
-  state.search.page = page;
-  const start = (page - 1) * state.search.perPage;
-  const end = page * state.search.perPage;
-  console.log(start, end);
+/**
+ * Gives an Array of 10 results corresponding to the given page out of the results Array and sets current page and total number of pages to the search object in state
+ * @param {Number} page The page number which is to be displayed to the view
+ * @returns {Object[]} An array of 10 recipes
+ */
+export const getSearchResultsPage = function (page = 1) {
+  // Set current page to the search Object
+  state.search.currentPage = page;
+
+  // Set total number of pages to the search object
+  state.search.numPages = Math.ceil(
+    state.search.results.length / state.search.resultsPerPage
+  );
+
+  const start = (page - 1) * 10;
+  const end = page * 10;
   return state.search.results.slice(start, end);
 };
 
-export const updateServings = function (numberServings) {
-  state.recipe.ingredients.forEach(ing => {
-    ing.quantity = (ing.quantity * numberServings) / state.recipe.servings;
-  });
-  state.recipe.servings = numberServings;
-  console.log(state);
+// Update ingredient quantity according to number of servings
+export const updateServings = function (numServings) {
+  state.recipe.ingredients.forEach(ing =>
+    ing.quantity
+      ? (ing.quantity = (ing.quantity * numServings) / state.recipe.servings)
+      : ''
+  );
+  // Update number of servings
+  state.recipe.servings = numServings;
 };
 
-const persistBookMark = function () {
-  localStorage.setItem('bookMarks', JSON.stringify(state.bookMarks));
+// Add/Remove bookmarks
+export const toggleBookmark = function () {
+  // If recipe not bookmarked, bookmark it
+  if (!state.recipe.bookmarked) {
+    console.log(state.bookmarks);
+    state.bookmarks.push(state.recipe);
+    state.recipe.bookmarked = true;
+  }
+  // If it's bookmarked, remove it
+  else {
+    const index = state.bookmarks.findIndex(rec => rec.id === state.recipe.id);
+    state.bookmarks.splice(index, 1);
+    state.recipe.bookmarked = false;
+  }
+
+  // Save bookmarks to the local storage
+  localStorage.setItem('bookmarks', JSON.stringify(state.bookmarks));
 };
 
-export const addBookMark = function (recipe) {
-  state.bookMarks.push(recipe);
-  if (recipe.id === state.recipe.id) state.recipe.bookMarked = true;
-
-  persistBookMark();
-};
-
-export const deleteBookMark = function (id) {
-  console.log(id);
-  const index = state.bookMarks.findIndex(ele => ele.id === id);
-  state.bookMarks.splice(index, 1);
-
-  if (id === state.recipe.id) state.recipe.bookMarked = false;
-
-  persistBookMark();
-};
-
+// Getting bookmarks from the local storage on page load
 const init = function () {
-  const storage = localStorage.getItem('bookMarks');
-  if (storage) state.bookMarks = JSON.parse(storage);
+  const storage = JSON.parse(localStorage.getItem('bookmarks'));
+
+  if (storage) state.bookmarks = storage;
 };
+
 init();
 
-export const UploadRecipe = async function (newRecipe) {
+/**
+ * Formats the recieved data and uploads a new recipe to the API
+ * @param {Object} newRecipe Recipe object containing raw data from the user
+ * @async
+ */
+export const uploadRecipe = async function (newRecipe) {
   try {
-    // ` Object.entries ` convert object to array
-    const ingredients = Object.entries(newRecipe)
-      .filter(entry => entry[0].includes('ingredient') && entry[1] !== '')
-      .map(ing => {
-        const ingArray = ing[1].split(',').map(ele => ele.trim());
-        if (ingArray.length !== 3)
-          throw new Error(`Wrong ingredient format, use correct format`);
-        const [quantity, unit, description] = ingArray;
-        return { quantity: quantity ? +quantity : null, unit, description };
-      });
-    console.log(ingredients);
+    // Getting an Array of all ingredient data from newRecipe
+    const RawIngs = Object.entries(newRecipe).filter(entry =>
+      entry[0].startsWith('ingredient')
+    );
 
-    console.log(newRecipe);
+    // Separating each ing out of rawIngs
+    const ingsArr = [];
+    while (RawIngs.length) ingsArr.push(RawIngs.splice(0, 3));
+
+    // Final ingredients array
+    const ingredients = ingsArr.map(ing => {
+      const [quantity, unit, description] = ing.map(ing => ing[1].trim());
+      return {
+        quantity: quantity ? +quantity : null,
+        unit,
+        description,
+      };
+    });
+
+    // Recipe object that will go to the API
     const recipe = {
       title: newRecipe.title,
       source_url: newRecipe.sourceUrl,
@@ -131,13 +165,48 @@ export const UploadRecipe = async function (newRecipe) {
       servings: +newRecipe.servings,
       ingredients,
     };
-    console.log(recipe);
 
+    // Sending the data to API
     const data = await AJAX(`${API_URL}?key=${KEY}`, recipe);
-    state.recipe = createRecipeObject(data);
-    addBookMark(state.recipe);
-  } catch (error) {
-    //
-    throw error;
+
+    // Setting the uploaded recipe as current recipe
+    state.recipe = recipeObject(data.data.recipe);
+
+    // Bookmarking the newly uploaded recipe
+    toggleBookmark();
+  } catch (err) {
+    throw err;
   }
 };
+
+// Deleting a user generated recipe
+export const deleteRecipe = async function () {
+  try {
+    // If it's bookmarked, removing it
+    if (state.recipe.bookmarked) toggleBookmark();
+
+    // Getting it's index from the search results Array, if included
+    const index = state.search.results.findIndex(
+      rec => rec.id === state.recipe.id
+    );
+
+    // Saving the index to the recipe
+    state.recipe.index = index;
+
+    // Sending delete request to the API
+    await deleteJSON(`${API_URL}${state.recipe.id}?key=${KEY}`);
+
+    // if inluded, remove it
+    if (index === -1) return;
+    state.search.results.splice(index, 1);
+  } catch (err) {
+    throw err;
+  }
+};
+
+// Clear bookmarks (Only deveopment purposes)
+const clearBookmarks = function (start, count) {
+  state.bookmarks.splice(start, count);
+  localStorage.setItem('bookmarks', JSON.stringify(state.bookmarks));
+};
+// clearBookmarks(0, state.bookmarks.length - 1);
