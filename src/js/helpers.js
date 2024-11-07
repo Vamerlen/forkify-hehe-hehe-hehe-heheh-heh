@@ -1,16 +1,18 @@
-import { TIMEOUT_SEC } from './config';
+import { async } from 'regenerator-runtime';
+import { TIME_OUT_SEC } from './configs.js';
 
 const timeout = function (s) {
   return new Promise(function (_, reject) {
     setTimeout(function () {
-      reject(new Error(`Request took too long! Timeout after ${s} second`));
+      reject(new Error(`Request took too long! Timeout after ${s} seconds.`));
     }, s * 1000);
   });
 };
 
+// API call for getting recipe, search results and uploading recipe
 export const AJAX = async function (url, uploadData = undefined) {
   try {
-    const proFetch = uploadData
+    const fetchPro = uploadData
       ? fetch(url, {
           method: 'POST',
           headers: {
@@ -19,51 +21,22 @@ export const AJAX = async function (url, uploadData = undefined) {
           body: JSON.stringify(uploadData),
         })
       : fetch(url);
-
-    const response = await Promise.race([proFetch, timeout(TIMEOUT_SEC)]);
-    const data = await response.json();
-    if (!response.ok) throw new Error(`${data.message} (${response.status})`);
-
+    const res = await Promise.race([fetchPro, timeout(TIME_OUT_SEC)]);
+    const data = await res.json();
+    if (!res.ok) throw new Error(`${data.message} (${res.status})`);
     return data;
-  } catch (error) {
-    //
-    throw error;
+  } catch (err) {
+    throw err;
   }
 };
 
-/*
-export const getJSON = async function (url) {
+// API call for deleting the recipe
+export const deleteJSON = async function (url) {
   try {
-    const response = await Promise.race([fetch(url), timeout(TIMEOUT_SEC)]);
-    const data = await response.json();
-    if (!response.ok) throw new Error(`${data.message} (${response.status})`);
-
-    return data;
-  } catch (error) {
-    // deepscan-disable
-    throw error;
-    // deepscan-enable
-  }
-};
-
-export const sendJSON = async function (url, neededUploadData) {
-  try {
-    const fetchPro = fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(neededUploadData),
+    await fetch(url, {
+      method: 'DELETE',
     });
-    const response = await Promise.race([fetchPro, timeout(TIMEOUT_SEC)]);
-    const data = await response.json();
-    if (!response.ok) throw new Error(`${data.message} (${response.status})`);
-
-    return data;
-  } catch (error) {
-    // deepscan-disable
-    throw error;
-    // deepscan-enable
+  } catch (err) {
+    throw err;
   }
 };
-*/
